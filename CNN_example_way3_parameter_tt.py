@@ -13,27 +13,24 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 import scipy.io as spio
-import h5py
 
 #=============================================================
 # load train and test data, label  
 #=============================================================
 
-#file1 = h5py.File('train_and_test_data1.mat')
-file1 ='train_and_test_data1.mat'
-lib = spio.loadmat(file1)
-train_data_real = file1['train_and_test_data1'][:]
+file1 = spio.loadmat('train_and_test_data1.mat')
+train_data_real = file1['y6_save_real_image'][:]
 train_data_real = np.transpose(train_data_real)
 
 train_data_real = np.array(train_data_real).astype(np.float32)
 
-#file3 = h5py.File('label1.mat')
-file3 ='label1.mat'
-lib = spio.loadmat(file3)
-Label = file3['label1'][:]
+file3 = spio.loadmat('label1.mat')
+print(file3)
+Label = file3['parameter_tt'][:]
 
 Label = np.array(Label).astype(np.float32)
-   
+
+print(Label)
 train_data1 = train_data_real[:15000, :, :]
 test_data1 = train_data_real[15000:, :, :]
 
