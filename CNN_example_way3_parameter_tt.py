@@ -13,29 +13,40 @@ from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 import scipy.io as spio
+#import h5py
 
 #=============================================================
 # load train and test data, label  
 #=============================================================
 
+#file1 = h5py.File('train_and_test_data1.mat')
+#file1 ='train_and_test_data1.mat'
+#lib = spio.loadmat(file1)
+#train_data_real = file1['train_and_test_data1'][:]
+
 file1 = spio.loadmat('train_and_test_data1.mat')
 train_data_real = file1['y6_save_real_image'][:]
 train_data_real = np.transpose(train_data_real)
-
 train_data_real = np.array(train_data_real).astype(np.float32)
 
+#file3 = h5py.File('label1.mat')
+#file3 ='label1.mat'
+#lib = spio.loadmat(file3)
+#Label = file3['label1'][:]
 file3 = spio.loadmat('label1.mat')
-print(file3)
+#print(file3)
 Label = file3['parameter_tt'][:]
 
+
+#print(Label)
+
 Label = np.array(Label).astype(np.float32)
+   
+train_data1 = train_data_real[:, :, :15000]
+test_data1 = train_data_real[:, :, 15000:]
 
-print(Label)
-train_data1 = train_data_real[:15000, :, :]
-test_data1 = train_data_real[15000:, :, :]
-
-train_label1 = Label[1,:15000]
-test_label1 = Label[1,15000:]
+train_label1 = Label[:15000]
+test_label1 = Label[15000:]
     
 # setting Parameters
 learning_rate = 0.001
@@ -55,7 +66,7 @@ def conv_net(x_dict, n_classes, dropout, reuse, is_training):#what is reuse，re
         x = x_dict['train_and_test_data1']
         
         # Tensor input become 4-D: [Batch Size, Height, Width, Channel]
-        x = tf.reshape(x, shape=[-1, 32, 20, 1])
+        x = tf.reshape(x, shape=[-1, 20, 32, 1])
         #张数，维度和深度
 
         # Convolution Layer1 with 32 filters and a kernel size of 2
